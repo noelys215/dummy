@@ -22,35 +22,49 @@ export const Test = () => {
 	}
 
 	// Example usage
-	const nums = [2, 7, 11, 15];
-	const target = 9;
-	console.log(twoSumHashMap(nums, target));
+	// const nums = [2, 7, 11, 15];
+	// const target = 9;
+	// console.log(twoSumHashMap(nums, target));
 
-	const twoSum = (nums, target) => {
-		let storage = new Map();
+	// const twoSum = (nums, target) => {
+	// 	let storage = new Map();
 
-		for (let i = 0; i < nums.length; i++) {
-			// get first number
-			let num1 = nums[i];
-			// subtract target by the fist number
-			let num2 = target - num1;
-			// If storage has the diff
-			if (storage.has(num2)) {
-				// get index from num2 and index of current number
-				return [storage.get(num2), i];
-			} else {
-				// if not in storage, place it in storage
-				storage.set(num1, i);
+	// 	for (let i = 0; i < nums.length; i++) {
+	// 		// get first number
+	// 		let num1 = nums[i];
+	// 		// subtract target by the fist number
+	// 		let num2 = target - num1;
+	// 		// If storage has the diff
+	// 		if (storage.has(num2)) {
+	// 			// get index from num2 and index of current number
+	// 			return [storage.get(num2), i];
+	// 		} else {
+	// 			// if not in storage, place it in storage
+	// 			storage.set(num1, i);
+	// 		}
+	// 	}
+	// };
+
+	const twoSum = (array, goal) => {
+		let indexes = [];
+
+		for (let i = 0; i < array.length; i++) {
+			for (let j = i + 1; j < array.length; j++) {
+				if (array[i] + array[j] === goal) {
+					indexes.push(i);
+					indexes.push(j);
+				}
 			}
 		}
+		return indexes;
 	};
 
 	twoSum();
 
 	return (
 		<div>
-			<h1>Nums: {nums}</h1>
-			<h2>Target: {target}</h2>
+			{/* <h1>Nums: {nums}</h1> */}
+			{/* <h2>Target: {target}</h2> */}
 		</div>
 	);
 };
