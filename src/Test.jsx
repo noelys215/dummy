@@ -1,65 +1,61 @@
 export const Test = () => {
-	function twoSumHashMap(nums, target) {
-		const storage = {}; // Initialize an empty object to act as a hash map
+	// Define a function that calculates and dispenses change
+	function dispenseChange(price, amountGiven) {
+		// Define an array of objects for each denomination, from largest to smallest
+		const denominations = [
+			{ name: '$20 bills', value: 20 },
+			{ name: '$10 bills', value: 10 },
+			{ name: '$5 bills', value: 5 },
+			{ name: '$1 bills', value: 1 },
+			{ name: 'Quarters', value: 0.25 },
+			{ name: 'Dimes', value: 0.1 },
+			{ name: 'Nickels', value: 0.05 },
+			{ name: 'Pennies', value: 0.01 },
+		];
 
-		// Loop through each element in the array
-		for (let i = 0; i < nums.length; i++) {
-			// Calculate the difference needed to reach the target
-			const diff = target - nums[i];
+		// Calculate the total change required by subtracting the price from the amount given
+		let changeRequired = amountGiven - price;
 
-			// Check if the difference has already been seen (exists in storage)
-			if (diff in storage) {
-				// If it exists, return an array containing the index of the
-				// previously seen number and the current index
-				return [storage[diff], i];
-			}
-
-			// If the current number does not help reach the target with any of the previously
-			// seen numbers, add it to the hash map with its index as the value
-			storage[nums[i]] = i;
+		// Check if the amount given is less than the price
+		if (changeRequired < 0) {
+			// If not enough money is provided, inform the user how much more is needed
+			console.log(
+				`Not enough money provided. Please provide an additional $${Math.abs(
+					changeRequired
+				).toFixed(2)}.`
+			);
+			return; // Exit the function
 		}
-		// If no solution is found, this point in the code would typically return an indication of failure;
+
+		// Log the total change that needs to be dispensed
+		console.log(`Total change to dispense: $${changeRequired.toFixed(2)}`);
+
+		// Use the reduce function to iterate over each denomination
+		let changeDispensed = denominations.reduce((acc, denom) => {
+			// Determine how many of the current denomination are needed
+			let count = Math.floor(changeRequired / denom.value);
+			if (count > 0) {
+				// If at least one of the current denomination is needed, add it to the accumulator
+				acc.push(`${count} x ${denom.name}`);
+				// Subtract the value of the dispensed denomination from the total change required
+				changeRequired -= count * denom.value;
+			}
+			return acc; // Return the accumulator for the next iteration
+		}, []);
+
+		// Check if any change has been dispensed
+		if (changeDispensed.length === 0) {
+			// If no change is needed, inform the user
+			console.log('No change required.');
+		} else {
+			// Otherwise, log the denominations of change to be dispensed
+			console.log('Change dispensed:', changeDispensed.join(', '));
+		}
 	}
 
-	// Example usage
-	// const nums = [2, 7, 11, 15];
-	// const target = 9;
-	// console.log(twoSumHashMap(nums, target));
-
-	// const twoSum = (nums, target) => {
-	// 	let storage = new Map();
-
-	// 	for (let i = 0; i < nums.length; i++) {
-	// 		// get first number
-	// 		let num1 = nums[i];
-	// 		// subtract target by the fist number
-	// 		let num2 = target - num1;
-	// 		// If storage has the diff
-	// 		if (storage.has(num2)) {
-	// 			// get index from num2 and index of current number
-	// 			return [storage.get(num2), i];
-	// 		} else {
-	// 			// if not in storage, place it in storage
-	// 			storage.set(num1, i);
-	// 		}
-	// 	}
-	// };
-
-	const twoSum = (array, goal) => {
-		let indexes = [];
-
-		for (let i = 0; i < array.length; i++) {
-			for (let j = i + 1; j < array.length; j++) {
-				if (array[i] + array[j] === goal) {
-					indexes.push(i);
-					indexes.push(j);
-				}
-			}
-		}
-		return indexes;
-	};
-
-	twoSum();
+	// Example usage of the function
+	dispenseChange(50, 57); // Expected output: "Change dispensed: 7 x $1 bills"
+	dispenseChange(50, 30); // Expected output: "Not enough money provided. Please provide an additional $20."
 
 	return (
 		<div>
