@@ -57,6 +57,27 @@ export const Test = () => {
 	dispenseChange(50, 57); // Expected output: "Change dispensed: 7 x $1 bills"
 	dispenseChange(50, 30); // Expected output: "Not enough money provided. Please provide an additional $20."
 
+	/* ------------- */
+	// Define a function to check if any value appears at least twice
+	const containsDuplicate = (nums) => {
+		nums.sort((a, b) => a - b);
+
+		// Loop through the array (up to the second to last element)
+		for (let i = 0; i < nums.length - 1; i++) {
+			// Check if the current element is equal to the next element
+			if (nums[i] === nums[i + 1]) return true;
+			// If a duplicate is found, return true
+		}
+
+		// If no duplicates are found, return false
+		return false;
+	};
+
+	// Example usage:
+	console.log(containsDuplicate([1, 2, 3, 1])); // Expected output: true
+	console.log(containsDuplicate([1, 2, 3, 4])); // Expected output: false
+	console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Expected output: true
+
 	return (
 		<div>
 			{/* <h1>Nums: {nums}</h1> */}
